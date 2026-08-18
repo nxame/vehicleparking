@@ -1,18 +1,16 @@
 /*===============================================
 
-  Developed by: Shekhar Kumar Sharma
-                "$hekh@r d-Ziner"
+  Developed by: Shekhar K. Sharma
                 hello@shekhardesigner.com
-                http://www.shekhardesigner.com
+                https://shekhar.net.np/
 
-                1801T3100155
                 CPG102 / 'C' Programming.
                 Term 3, 2011. Final Project
                 Informatics College, Kamalpokhari, Kathmandu, Nepal
-                http://www.informatics.edu.np
+                https://islington.edu.np/
 
                 Project on:
-                NLIC Vehicle Parking System
+                Vehicle Parking System
 
                 Instructor: Prakash Shrestha
 
@@ -59,10 +57,9 @@
   System source build includes.
   ===|==============================================*/
 #include <stdio.h>
-#include <conio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <dos.h>
+#include "conio_compat.h"
 
 /*===|================================================
   System variables
@@ -95,7 +92,7 @@ void  scanPassword(char *);
 char  getYN();
 void  systemMenu();
 void  date();
-float time();
+float currTime();
 float hour;
 float mins;
 int   autoKeyGenerate();
@@ -171,7 +168,7 @@ void scanString(char *input)
 			flag=1;
 			exitApp();
 		}
-		else if(userinput==13 && i>0) //if enter key is pressed
+		else if((userinput==13 || userinput==9) && i>0)
 		{
 			flag=1;
 			break;
@@ -185,7 +182,7 @@ void scanString(char *input)
 		}
 		else
 		{
-			if(userinput!=8 && ((userinput>=65 && userinput<=90) || (userinput>=97 && userinput<=122)))
+			if(userinput!=8 && i<20 && ((userinput>=65 && userinput<=90) || (userinput>=97 && userinput<=122)))
 			{
 				textbackground(WHITE);
 				textcolor(BLUE);
@@ -204,7 +201,7 @@ void scanString(char *input)
 	{
 
 		gotoxy(16,22);
-		cprintf("Characters  exceeded the limit 20.");
+		cprintf("Characters exceeded the limit of 20.");
 		getch();
 	}
 	else
@@ -247,7 +244,7 @@ void scanWords(char *input)
 		}
 		else
 		{
-			if(userinput!=8 && ((userinput>=65 && userinput<=90) || (userinput>=97 && userinput<=122) || (userinput==32) || (userinput>=48 && userinput<=57)))
+			if(userinput!=8 && i<20 && ((userinput>=65 && userinput<=90) || (userinput>=97 && userinput<=122) || (userinput==32) || (userinput>=48 && userinput<=57)))
 			{
 				textbackground(WHITE);
 				textcolor(BLUE);
@@ -266,7 +263,7 @@ void scanWords(char *input)
 	{
 
 		gotoxy(16,22);
-		cprintf("Characters  exceeded the limit 20.");
+		cprintf("Characters exceeded the limit of 20.");
 		getch();
 	}
 	else
@@ -310,7 +307,7 @@ int scanInt()
 		}
 		else
 		{
-			if(userinput!=8 && (userinput>=48 && userinput<=57))
+			if(userinput!=8 && i<20 && (userinput>=48 && userinput<=57))
 			{
 				textbackground(WHITE);
 				textcolor(BLUE);
@@ -360,7 +357,7 @@ void scanPassword(char *input)
 			flag=1;
 			break;
 		}
-		else if(userinput==13 && i>0) //if enter key is pressed
+		else if((userinput==13 || userinput==9) && i>0) //if enter key is pressed
 		{
 			flag=1;
 			break;
@@ -372,7 +369,7 @@ void scanPassword(char *input)
 			cprintf("%c",8);
 			i--;
 		}
-		else
+		else if(i<20)
 		{
 			textbackground(WHITE);
 			textcolor(BLUE);
@@ -425,13 +422,13 @@ void createFooter(int y){
 	textcolor(WHITE);
 	createHorzLines(11,69,y,'M');
 	gotoxy(13,(y+1));
-	cprintf("Licensed to NLIC City Centre");
+	cprintf("Licensed to Shekhar K. Sharma");
 	gotoxy(13,y+2);
-	cprintf("(c) 2011, All rights reserved in developer.");
+	cprintf("(c) 2011, All rights reserved by the developer.");
 	gotoxy(13,y+3);
-	cprintf("Developed by: Shekhar Kumar Sharma");
+	cprintf("Developed by: Shekhar K. Sharma");
 	gotoxy(27,y+4);
-	cprintf("1801T3100155, CPG102, 'C' Project");
+	cprintf("CPG102, 'C' Project");
 	createHorzLines(11,69,(y+5),'B');
 
 
@@ -452,15 +449,15 @@ void splashScreen(){
 	createVertLines(3, 23, 69);
 
 	//creating logo
-	gotoxy(33,7);
-	cprintf("%c%c%c %c   %c %c%c%c ",219,219,219,219,219,219,219,219);
-	gotoxy(33,8);
-	cprintf("%c %c %c   %c %c ", 219,219,219,219,219);
-	gotoxy(33,9);
-	cprintf("%c %c %c%c%c %c %c%c%c ", 219,219,219,219,219,219,219,219,219);
+	gotoxy(35,7);
+	cprintf("%c%c%c %c %c  %c ",219,219,219,219,219,219);
+	gotoxy(35,8);
+	cprintf("%c %c  %c  %c%c%c",219,219,219,219,219,219);
+	gotoxy(35,9);
+	cprintf("%c %c %c %c %c %c",219,219,219,219,219,219);
 
 	gotoxy(29,11);
-	cprintf("\Vehicle Parking System.");
+	cprintf("Vehicle Parking System.");
 
 	//printing footer.
 	createFooter(19);
@@ -489,8 +486,12 @@ void splashScreen(){
 
 	textcolor(WHITE);
 	_setcursortype(_NOCURSOR);
-	//getch();
 	delay(500);
+	gotoxy(15,14);
+	cprintf("             ");
+	gotoxy(15,14);
+	cprintf("Press <ENTER> to login.");
+	while(getch()!=13);
 
 }
 
@@ -499,8 +500,8 @@ void splashScreen(){
   ===|==============================================*/
 void innerHeader(){
 
-	gotoxy(21,3);
-	cprintf("NLIC CITY CENTRE | VEHICLE PARKING SYSTEM");
+	gotoxy(33,3);
+	cprintf("PARKING SYSTEM");
 	gotoxy(12,4);
 	createHorzLines(11,69,4,'M');
 }
@@ -542,13 +543,13 @@ void authenticateUsers(){
 	scanPassword(password);
 
 
-	if(stricmp(username,"masta")==0 && strcmp(password,"cpdor")==0)
+	if(stricmp(username,"admin")==0 && strcmp(password,"admin")==0)
 	{
 		loggedIn = 1;
 		clrscr();
 		gotoxy(30,10);
 		textcolor(YELLOW);
-		cprintf("Wait. Loggin in.");
+		cprintf("Wait. Logging in.");
 		delay(200);
 		cprintf(".");
 		delay(200);
@@ -563,7 +564,7 @@ void authenticateUsers(){
 	{
 		 gotoxy(16,22);
 		 textcolor(RED);
-		 cprintf("Username or Password Invalid!");
+		 cprintf("Invalid username or password!");
 		 textcolor(WHITE);
 		 gotoxy(16,23);
 		 cprintf("Press any key and type again.");
@@ -593,7 +594,7 @@ void systemMenu(){
         innerHeader();
 
         gotoxy(14,7);
-        cprintf("Welcome to Parkign system");
+        cprintf("Welcome to Parking System");
         gotoxy(14,8);
         cprintf("-------------------------");
         gotoxy(14,9);
@@ -614,7 +615,9 @@ void systemMenu(){
         gotoxy(14,17);
         cprintf(" 4.   SHOW DAILY REPORT.");
         gotoxy(14,18);
-        cprintf(" 5.   SIGN OFF & EXIT");
+        cprintf(" 5.   LOGOUT");
+        gotoxy(14,19);
+        cprintf(" Q.   QUIT");
         gotoxy(14,21);
         cprintf("Press menu key:");
         gotoxy(30,21);
@@ -626,7 +629,7 @@ void systemMenu(){
         fflush(stdin);
         menuKey = getch();
 	}
-	while(menuKey!='1' && menuKey!='2' && menuKey!='3' && menuKey!='4' && menuKey!='5');
+	while(menuKey!='1' && menuKey!='2' && menuKey!='3' && menuKey!='4' && menuKey!='5' && menuKey!='q' && menuKey!='Q');
 
 	switch(menuKey){
 		case '1':
@@ -646,6 +649,12 @@ void systemMenu(){
 		break;
 
 		case '5':
+		loggedIn = 0;
+		authenticateUsers();
+		break;
+
+		case 'q':
+		case 'Q':
 		exitApp();
 		break;
 	}
@@ -708,13 +717,13 @@ void date()
 		cprintf ("Dec");
 
 	}
-	printf(" %d, %d",dt.da_day,dt.da_year);
+	cprintf(" %d, %d",dt.da_day,dt.da_year);
 }
 
 /*===|================================================
   getting system curr time
   ===|==============================================*/
-float time(){
+float currTime(){
 
 	struct time tm;
 	gettime(&tm);
@@ -748,11 +757,10 @@ int autoKeyGenerate()
 {
 	i=0;
 
-	fl=fopen("VL-DATA\\listVhcl.txt","rb+");
+	fl=fopen("VL-DATA/listVhcl.txt","rb+");
 
 	if(fl==NULL)
 	{
-		fclose(fl);
 		return 1;
 	}
 
@@ -802,7 +810,7 @@ int addVehicleForm(int vType){
 
 	//adding system current time.
 	gotoxy(28,14);
-	vehicle.entry = time();
+	vehicle.entry = currTime();
 	cprintf("%2.2f", vehicle.entry);
 
     textcolor(WHITE);
@@ -826,7 +834,7 @@ int addVehicleForm(int vType){
 	vehicle.status=0;
 
     //Writing into file
-    fl = fopen("VL-DATA\\listVhcl.txt", "ab+");
+    fl = fopen("VL-DATA/listVhcl.txt", "ab+");
 
     if(fl==NULL){
         clrscr();
@@ -944,6 +952,10 @@ void searchVehicle(){
 	int found=0;
 	int recordSize;
 
+	while(1){
+
+	found=0;
+
 	clrscr();
 	//creating box boundary lines
 	createHorzLines(11,69,2, 'T');
@@ -991,7 +1003,7 @@ void searchVehicle(){
     cprintf("-------------------");
 
     //Opening file in RB mode to enable readonly & safe search.
-    fl=fopen("VL-DATA\\listVhcl.txt","rb+");
+    fl=fopen("VL-DATA/listVhcl.txt","rb+");
 
     if(fl==NULL){
         clrscr();
@@ -1001,7 +1013,7 @@ void searchVehicle(){
         cprintf("Press <ANY> key to go back.");
         fflush(stdin);
         getch();
-        searchVehicle();
+        continue;
     }
 
     while(fread(&vehicle,sizeof(vehicle),1,fl)!=0)
@@ -1026,24 +1038,25 @@ void searchVehicle(){
         gotoxy(14,15);
         cprintf("Exit time   :");
         gotoxy(28,15);
-        cprintf("%2.2f", time());
+        cprintf("%2.2f", currTime());
         gotoxy(14,17);
         cprintf("Vehicle NO  : %s", vehicle.num);
         gotoxy(14,19);
-        cprintf("Charge      : Rs.%2.2f/-", calculateCharge(vehicle.entry, time(), vehicle.charge));
+        cprintf("Charge      : Rs.%2.2f/-", calculateCharge(vehicle.entry, currTime(), vehicle.charge));
 
         if(vehicle.status==1){
 
             gotoxy(14,9);
             textcolor(YELLOW);
-            cprintf("THIS VEHICLE IS ALREADY BEEN RELEASED. ");
+            cprintf("THIS VEHICLE HAS ALREADY BEEN RELEASED. ");
             textcolor(WHITE);
 
             gotoxy(14,22);
             cprintf("Press <ANY KEY> to return back.");
             _setcursortype(_NOCURSOR);
             getch();
-            searchVehicle();
+            fclose(fl);
+            continue;
 
         }
 
@@ -1056,11 +1069,11 @@ void searchVehicle(){
         {
 
             //setting exit time
-            vehicle.exit=time();
+            vehicle.exit=currTime();
             //Changing status to released;
             vehicle.status=1;
             //adding newly calculated chage.
-            vehicle.charge= calculateCharge(vehicle.entry, time(), vehicle.charge);
+            vehicle.charge= calculateCharge(vehicle.entry, currTime(), vehicle.charge);
 
 
             recordSize=sizeof(vehicle);
@@ -1074,11 +1087,11 @@ void searchVehicle(){
             textcolor(WHITE);
 
             delay(500);
-            searchVehicle();
+            continue;
         }
         else{
             fclose(fl);
-            searchVehicle();
+            continue;
         }
     }
     else{
@@ -1106,9 +1119,12 @@ void searchVehicle(){
             textcolor(WHITE);
             _setcursortype(_NOCURSOR);
             getch();
-            searchVehicle();
+            fclose(fl);
+            continue;
 
     }
+
+	}
 
 }
 
@@ -1157,7 +1173,7 @@ void generateReport(){
 	createHorzLines(14,66,11,'M');
 
     //adding lines of data
-	fl=fopen("VL-DATA\\listVhcl.txt","rb+");
+	fl=fopen("VL-DATA/listVhcl.txt","rb+");
 	if(fl==NULL)
 	{
 		gotoxy(15,12);
@@ -1255,8 +1271,8 @@ void exitApp(){
 	gotoxy(36,11);
 	cprintf("EXIT !!!");
 	if(loggedIn==1){
-		gotoxy(21,13);
-		cprintf("Are your sure want to EXIT the system?");
+		gotoxy(19,13);
+		cprintf("Are you sure you want to EXIT the system?");
 		gotoxy(22,14);
 		cprintf("Press any key to return to main menu");
 		gotoxy(32,15);
@@ -1304,7 +1320,7 @@ void exitApp(){
   All in one
   Running the application.
   ===|==============================================*/
-void main(){
+int main(){
 	//default screen styles
 	textbackground(CYAN);
 	clrscr();
@@ -1316,4 +1332,5 @@ void main(){
 	//showing user login screen
 	authenticateUsers();
 
+	return 0;
 }

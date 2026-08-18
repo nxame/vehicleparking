@@ -57,6 +57,9 @@ dkms.conf
 # Backup files
 *.BAK
 
+# Build output
+/parking
+
 # macOS
 .DS_Store
 
