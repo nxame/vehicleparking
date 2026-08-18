@@ -10,7 +10,7 @@ else ifeq ($(UNAME_S),Linux)
 CURSES_LIBS = -lncursesw
 else
 MINGW_PREFIX ?= /mingw64
-CURSES_CFLAGS = -I$(MINGW_PREFIX)/include/pdcurses
+CURSES_CFLAGS = -I$(MINGW_PREFIX)/include/pdcurses -DPDC_WIDE -DPDC_FORCE_UTF8
 CURSES_LIBS = -lpdcurses
 endif
 
