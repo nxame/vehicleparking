@@ -40,13 +40,34 @@ Two options, pick one:
   `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pdcurses make`, then
   `make` in the repo (links `-lpdcurses`).
 
+## Using a release binary
+
+Prebuilt binaries are attached to GitHub releases as `.tar.gz` (macOS,
+Linux) and `.zip` (Windows) — extract and run, no install step.
+
+They are not code-signed. On macOS, clear the download quarantine once
+before the first run:
+
+```sh
+xattr -d com.apple.quarantine ./parking
+```
+
+(Or right-click the binary → Open.) Windows SmartScreen may show a
+warning the first time — choose "More info" → "Run anyway".
+
 ## Running
 
 - Terminal must be at least **80×25** and UTF-8 (any modern default is).
 - Login: username `admin`, password `admin` (hardcoded test credentials).
-- Data persists in `VL-DATA/listVhcl.txt` (raw binary records). Delete the
-  file for a fresh start. Files written by the original DOS build are not
-  compatible (16-bit ints).
+- Data persists as raw binary records in `listVhcl.txt` under the
+  platform's user-data directory (created on first run):
+  - macOS: `~/Library/Application Support/vehicleparking/`
+  - Linux: `$XDG_DATA_HOME/vehicleparking/` (default
+    `~/.local/share/vehicleparking/`)
+  - Windows: `%APPDATA%\vehicleparking\`
+
+  Delete the file for a fresh start. Files written by the original DOS
+  build are not compatible (16-bit ints).
 - `ESC` inside forms returns to the menu (or exits, on the login screen).
 - `Tab` or `Enter` advances between login fields.
 - Main menu: `1`–`4` for tasks, `5` logs out (back to login), `Q` quits.
@@ -57,6 +78,7 @@ Two options, pick one:
 | --- | --- |
 | `PARKING.C` | Original 2011 source, minimally edited for portability |
 | `conio_compat.h/.c` | Turbo C `conio.h`/`dos.h` API on top of curses |
+| `datapath.h/.c` | Per-OS user-data directory for the records file |
 | `Makefile` | Picks the right curses lib per OS; forces C mode (`-x c`) because the uppercase `.C` extension otherwise compiles as C++ |
 | `OUTLINE.png` | Original screen-design mockup, the visual reference |
 

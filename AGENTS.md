@@ -9,7 +9,8 @@ computing parking charges.
 ## Build & run
 - `make` then `make run` (see CONTRIBUTING.md for per-OS setup).
 - Login: `admin` / `admin`. Terminal must be ≥80×25, UTF-8.
-- `PARKING.C` + `conio_compat.h/.c` (Turbo C DOS API on curses) + Makefile.
+- `PARKING.C` + `conio_compat.h/.c` (Turbo C DOS API on curses) +
+  `datapath.h/.c` (per-OS data dir) + Makefile.
 - The Makefile passes `-x c`: the uppercase `.C` extension otherwise makes
   clang compile it as C++.
 
@@ -26,8 +27,9 @@ computing parking charges.
 ## Porting rules
 - Port, not rewrite: keep 2011 logic, screen layout (reference:
   OUTLINE.png), and quirks — recursive menu navigation, float-encoded
-  times (`HH.MM` as float), binary struct records in
-  `VL-DATA/listVhcl.txt` — unless they crash.
+  times (`HH.MM` as float), binary struct records — unless they crash.
+- Records live in `listVhcl.txt` under the per-OS user-data dir (see
+  datapath.h); the old `VL-DATA/` folder is gone.
 - Portability edits already made: `time()`→`currTime()`, `int main`,
   forward-slash paths, `printf`→`cprintf` in `date()`, 20-char input caps,
   `searchVehicle()` recursion→loop with fclose on all exit paths, no

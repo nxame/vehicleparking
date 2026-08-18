@@ -12,9 +12,9 @@ else
 CURSES_LIBS = -lpdcurses
 endif
 
-SRCS = PARKING.C conio_compat.c
+SRCS = PARKING.C conio_compat.c datapath.c
 
-$(TARGET): $(SRCS) conio_compat.h
+$(TARGET): $(SRCS) conio_compat.h datapath.h
 	$(CC) $(CFLAGS) -x c -o $(TARGET) $(SRCS) $(CURSES_LIBS)
 
 run: $(TARGET)

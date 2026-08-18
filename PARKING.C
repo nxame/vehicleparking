@@ -60,6 +60,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "conio_compat.h"
+#include "datapath.h"
 
 /*===|================================================
   System variables
@@ -757,7 +758,7 @@ int autoKeyGenerate()
 {
 	i=0;
 
-	fl=fopen("VL-DATA/listVhcl.txt","rb+");
+	fl=fopen(dataFile(), "rb+");
 
 	if(fl==NULL)
 	{
@@ -834,7 +835,7 @@ int addVehicleForm(int vType){
 	vehicle.status=0;
 
     //Writing into file
-    fl = fopen("VL-DATA/listVhcl.txt", "ab+");
+    fl = fopen(dataFile(), "ab+");
 
     if(fl==NULL){
         clrscr();
@@ -1003,7 +1004,7 @@ void searchVehicle(){
     cprintf("-------------------");
 
     //Opening file in RB mode to enable readonly & safe search.
-    fl=fopen("VL-DATA/listVhcl.txt","rb+");
+    fl=fopen(dataFile(), "rb+");
 
     if(fl==NULL){
         clrscr();
@@ -1173,7 +1174,7 @@ void generateReport(){
 	createHorzLines(14,66,11,'M');
 
     //adding lines of data
-	fl=fopen("VL-DATA/listVhcl.txt","rb+");
+	fl=fopen(dataFile(), "rb+");
 	if(fl==NULL)
 	{
 		gotoxy(15,12);
