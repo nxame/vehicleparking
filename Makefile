@@ -9,13 +9,15 @@ CURSES_LIBS = -lncurses
 else ifeq ($(UNAME_S),Linux)
 CURSES_LIBS = -lncursesw
 else
+MINGW_PREFIX ?= /mingw64
+CURSES_CFLAGS = -I$(MINGW_PREFIX)/include/pdcurses
 CURSES_LIBS = -lpdcurses
 endif
 
 SRCS = PARKING.C conio_compat.c datapath.c
 
 $(TARGET): $(SRCS) conio_compat.h datapath.h
-	$(CC) $(CFLAGS) -x c -o $(TARGET) $(SRCS) $(CURSES_LIBS)
+	$(CC) $(CFLAGS) $(CURSES_CFLAGS) -x c -o $(TARGET) $(SRCS) $(CURSES_LIBS)
 
 run: $(TARGET)
 	./$(TARGET)
