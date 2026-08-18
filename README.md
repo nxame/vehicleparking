@@ -2,7 +2,7 @@
 
 Software developed using C language
 
-**Islington College**<br />
+**[Islington College](https://islington.edu.np/)**<br />
 Term 3, 2011. Final Project<br />
 IDITC<br />
 C Project 'CPG102'<br />
